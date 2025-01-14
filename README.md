@@ -1,4 +1,4 @@
-# flutter_tawk_to
+# flutter_tawk_to_chat
 This package is a fork of [flutter_tawk](https://github.com/ayoubamine/flutter_tawk) package.
 
 [![pub package](https://img.shields.io/pub/v/flutter_tawk_to_chat.svg)](https://pub.dev/packages/flutter_tawk_to_chat)
