@@ -134,13 +134,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
-  flutter_tawk_to:
+  flutter_tawk_to_chat:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "0.1.0"
+    version: "0.2.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -300,38 +300,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
-  webview_flutter:
-    dependency: transitive
-    description:
-      name: webview_flutter
-      sha256: "7e0fa0832e7a27b26271b5fbf9cd8f7b46075f30ddef12e1045701638e3acda4"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.1"
-  webview_flutter_android:
-    dependency: transitive
-    description:
-      name: webview_flutter_android
-      sha256: "758a05c92e3504e5084ba903e72fe89441d3e666fb258914c701fe632b503d61"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.8.4"
-  webview_flutter_platform_interface:
-    dependency: transitive
-    description:
-      name: webview_flutter_platform_interface
-      sha256: "6144d750f56ae63fdaad10ff09e0f762142beabde4fefdc2d32564f75572d905"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.8.1"
-  webview_flutter_wkwebview:
-    dependency: transitive
-    description:
-      name: webview_flutter_wkwebview
-      sha256: "87c56a34f69867f3aaf0b66df5399a4fc18898b1df8c738b835e62b73059d66f"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.7.1"
 sdks:
   dart: ">=3.5.0 <4.0.0"
   flutter: ">=3.24.0"

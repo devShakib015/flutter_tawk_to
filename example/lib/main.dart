@@ -1,8 +1,6 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
-
-import 'package:flutter_tawk_to/flutter_tawk_to.dart';
+import 'package:flutter_tawk_to_chat/flutter_tawk_to_chat.dart';
 
 void main() => runApp(const MyApp());
 

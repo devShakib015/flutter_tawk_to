@@ -82,54 +82,57 @@ Tawk_API.onLoad = function() {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Stack(
-        children: [
-          InAppWebView(
-            initialUrlRequest: URLRequest(url: WebUri(widget.directChatLink)),
-            initialSettings: InAppWebViewSettings(
-              supportZoom: false,
+    return ColoredBox(
+      color: Colors.white,
+      child: SafeArea(
+        child: Stack(
+          children: [
+            InAppWebView(
+              initialUrlRequest: URLRequest(url: WebUri(widget.directChatLink)),
+              initialSettings: InAppWebViewSettings(
+                supportZoom: false,
+              ),
+              onWebViewCreated: (InAppWebViewController webViewController) {
+                setState(() {
+                  _controller = webViewController;
+                });
+              },
+              shouldOverrideUrlLoading: (controller, navigationAction) async {
+                URLRequest request = navigationAction.request;
+                if (request.url == null ||
+                    request.url.toString() == 'about:blank' ||
+                    request.url!.toString().contains('tawk.to/chat')) {
+                  return NavigationActionPolicy.ALLOW;
+                }
+
+                if (widget.onLinkTap != null) {
+                  widget.onLinkTap!(request.url.toString());
+                }
+
+                return NavigationActionPolicy.CANCEL;
+              },
+              onLoadStop: (controller, url) {
+                if (widget.visitor != null) {
+                  _setUser(widget.visitor!);
+                }
+
+                if (widget.onLoad != null) {
+                  widget.onLoad!();
+                }
+
+                setState(() {
+                  _isLoading = false;
+                });
+              },
             ),
-            onWebViewCreated: (InAppWebViewController webViewController) {
-              setState(() {
-                _controller = webViewController;
-              });
-            },
-            shouldOverrideUrlLoading: (controller, navigationAction) async {
-              URLRequest request = navigationAction.request;
-              if (request.url == null ||
-                  request.url.toString() == 'about:blank' ||
-                  request.url!.toString().contains('tawk.to/chat')) {
-                return NavigationActionPolicy.ALLOW;
-              }
-
-              if (widget.onLinkTap != null) {
-                widget.onLinkTap!(request.url.toString());
-              }
-
-              return NavigationActionPolicy.CANCEL;
-            },
-            onLoadStop: (controller, url) {
-              if (widget.visitor != null) {
-                _setUser(widget.visitor!);
-              }
-
-              if (widget.onLoad != null) {
-                widget.onLoad!();
-              }
-
-              setState(() {
-                _isLoading = false;
-              });
-            },
-          ),
-          _isLoading
-              ? widget.placeholder ??
-                  const Center(
-                    child: CircularProgressIndicator(),
-                  )
-              : Container(),
-        ],
+            _isLoading
+                ? widget.placeholder ??
+                    const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                : Container(),
+          ],
+        ),
       ),
     );
   }
