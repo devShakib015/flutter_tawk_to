@@ -1,7 +1,7 @@
 # flutter_tawk_to
 This package is a fork of [flutter_tawk](https://github.com/ayoubamine/flutter_tawk) package.
 
-[![pub package](https://img.shields.io/pub/v/flutter_tawk.svg)](https://pub.dartlang.org/packages/flutter_tawk)
+[![pub package](https://img.shields.io/pub/v/flutter_tawk_to_chat.svg)](https://pub.dev/packages/flutter_tawk_to_chat)
 
 <img src="https://i1.wp.com/www.tawk.to/wp-content/uploads/2020/04/tawk-sitelogo.png" width="48">
 
@@ -10,19 +10,20 @@ This package is a fork of [flutter_tawk](https://github.com/ayoubamine/flutter_t
 ## 🚀 Showcase
 
 <p>
-    <img src="https://raw.githubusercontent.com/ayoubamine/flutter_tawk/main/readme_resources/screenshot1.png" width="200" />
-    <img src="https://raw.githubusercontent.com/ayoubamine/flutter_tawk/main/readme_resources/screenshot2.png" width="200" />
-    <img src="https://raw.githubusercontent.com/ayoubamine/flutter_tawk/main/readme_resources/screenshot3.png" width="200" />
+    <img src="https://raw.githubusercontent.com/ycy-0510/flutter_tawk_to/main/readme_resources/screenshot4.png" width="200" />
+    <img src="https://raw.githubusercontent.com/ycy-0510/flutter_tawk_to/main/readme_resources/screenshot5.png" width="200" />
+    <img src="https://raw.githubusercontent.com/ycy-0510/flutter_tawk_to/main/readme_resources/screenshot6.png" width="200" />
+    <img src="https://raw.githubusercontent.com/ycy-0510/flutter_tawk_to/main/readme_resources/screenshot7.png" width="200" />
 </p>
 
 ## Install
 
-To use this package, add `flutter_tawk_to` as dependency in your pubspec.yaml file.
+To use this package, add `flutter_tawk_to_chat` as dependency in your pubspec.yaml file.
 
 ## Import
 
 ```dart
-import 'package:flutter_tawk_to/flutter_tawk_to.dart';
+import 'package:flutter_tawk_to_chat/flutter_tawk_to_chat.dart';
 ```
 
 ## How To Use
