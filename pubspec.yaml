@@ -4,8 +4,8 @@ version: 0.2.0
 homepage: https://github.com/ycy-0510/flutter_tawk_to
 
 environment:
-  sdk: '>=2.16.2 <3.0.0'
-  flutter: '>=1.17.0'
+  sdk: '>=2.16.2 <4.0.0'
+  flutter: '>=2.0.0'
 
 dependencies:
   flutter:
