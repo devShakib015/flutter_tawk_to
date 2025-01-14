@@ -1,6 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
-import 'package:flutter_tawk/flutter_tawk.dart';
+import 'package:flutter_tawk_to/flutter_tawk_to.dart';
 
 void main() => runApp(const MyApp());
 
@@ -12,21 +14,21 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Flutter Tawk'),
-          backgroundColor: const Color(0XFFF7931E),
+          title: const Text('Flutter Tawk.to'),
           elevation: 0,
         ),
         body: Tawk(
-          directChatLink: 'YOUR_DIRECT_CHAT_LINK',
+          directChatLink:
+              'https://tawk.to/chat/615847b0d326717cb68462c7/', //'YOUR_DIRECT_CHAT_LINK',
           visitor: TawkVisitor(
-            name: 'Ayoub AMINE',
-            email: 'ayoubamine2a@gmail.com',
+            name: 'Username',
+            email: 'example@gmail.com',
           ),
           onLoad: () {
-            print('Hello Tawk!');
+            log('Hello Tawk!', name: 'TawkTo');
           },
           onLinkTap: (String url) {
-            print(url);
+            log(url, name: 'Tap url');
           },
           placeholder: const Center(
             child: Text('Loading...'),

@@ -1,10 +1,11 @@
-# flutter_tawk
+# flutter_tawk_to
+This package is a fork of [flutter_tawk](https://github.com/ayoubamine/flutter_tawk) package.
 
 [![pub package](https://img.shields.io/pub/v/flutter_tawk.svg)](https://pub.dartlang.org/packages/flutter_tawk)
 
 <img src="https://i1.wp.com/www.tawk.to/wp-content/uploads/2020/04/tawk-sitelogo.png" width="48">
 
-[Tawk](https://www.tawk.to) widget for Flutter.
+[Tawk.to](https://www.tawk.to) widget for Flutter.
 
 ## 🚀 Showcase
 
@@ -16,12 +17,12 @@
 
 ## Install
 
-To use this package, add `flutter_tawk` as dependency in your pubspec.yaml file.
+To use this package, add `flutter_tawk_to` as dependency in your pubspec.yaml file.
 
 ## Import
 
 ```dart
-import 'package:flutter_tawk/flutter_tawk.dart';
+import 'package:flutter_tawk_to/flutter_tawk_to.dart';
 ```
 
 ## How To Use
@@ -30,8 +31,8 @@ import 'package:flutter_tawk/flutter_tawk.dart';
 Tawk(
     directChatLink: 'YOUR_DIRECT_CHAT_LINK',
     visitor: TawkVisitor(
-        name: 'Ayoub AMINE',
-        email: 'ayoubamine2a@gmail.com',
+        name: 'Username',
+        email: 'example@gmail.com',
     ),
 )
 ```
@@ -58,12 +59,6 @@ See the `example` directory for the complete sample app.
 | email     | `String` | `null`  | Visitor's email.                                            | No       |
 | hash      | `String` | `null`  | [Secure mode](https://developer.tawk.to/jsapi/#SecureMode). | No       |
 
-## Contributions
-
-Feel free to contribute to this project.
-
-If you find a bug or want a feature, but don't know how to fix/implement it, please fill an [issue](https://github.com/ayoubamine/flutter_tawk/issues).  
-If you fixed a bug or implemented a new feature, please send a [pull request](https://github.com/ayoubamine/flutter_tawk/pulls).
 
 ## Changelog
 

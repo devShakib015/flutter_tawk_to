@@ -1,8 +1,10 @@
-import 'dart:io';
 import 'dart:convert';
+import 'dart:developer';
+import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import 'tawk_visitor.dart';
 
@@ -37,75 +39,98 @@ class Tawk extends StatefulWidget {
 }
 
 class _TawkState extends State<Tawk> {
-  late WebViewController _controller;
+  late InAppWebViewController _controller;
   bool _isLoading = true;
+  late CookieManager cookieManager;
 
-  void _setUser(TawkVisitor visitor) {
-    final json = jsonEncode(visitor);
+  @override
+  void initState() {
+    super.initState();
+    cookieManager = CookieManager.instance();
+  }
+
+  Future<void> _setUser(TawkVisitor visitor) async {
     String javascriptString;
 
     if (Platform.isIOS) {
       javascriptString = '''
-        Tawk_API = Tawk_API || {};
-        Tawk_API.setAttributes($json);
+    var Tawk_API = Tawk_API || {}
+    Tawk_API.setAttributes(${jsonEncode(visitor.toJson())})
       ''';
     } else {
       javascriptString = '''
-        Tawk_API = Tawk_API || {};
-        Tawk_API.onLoad = function() {
-          Tawk_API.setAttributes($json);
-        };
+var Tawk_API = Tawk_API || {};
+Tawk_API.onLoad = function() {
+  Tawk_API.setAttributes(${jsonEncode(visitor.toJson())})
+};
       ''';
     }
+    if (kDebugMode) {
+      log(javascriptString.replaceAll('\n', ''), name: 'WebView JS');
+    }
+    await _controller.evaluateJavascript(source: javascriptString);
+    if (kDebugMode) {
+      print(await _controller.evaluateJavascript(source: 'Tawk_API'));
+    }
+  }
 
-    _controller.runJavascript(javascriptString);
+  @override
+  void dispose() {
+    _controller.evaluateJavascript(source: 'Tawk_API.endChat();');
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        WebView(
-          initialUrl: widget.directChatLink,
-          javascriptMode: JavascriptMode.unrestricted,
-          onWebViewCreated: (WebViewController webViewController) {
-            setState(() {
-              _controller = webViewController;
-            });
-          },
-          navigationDelegate: (NavigationRequest request) {
-            if (request.url == 'about:blank' ||
-                request.url.contains('tawk.to')) {
-              return NavigationDecision.navigate;
-            }
+    return SafeArea(
+      child: Stack(
+        children: [
+          InAppWebView(
+            initialUrlRequest: URLRequest(url: WebUri(widget.directChatLink)),
+            initialSettings: InAppWebViewSettings(
+              supportZoom: false,
+            ),
+            onWebViewCreated: (InAppWebViewController webViewController) {
+              setState(() {
+                _controller = webViewController;
+              });
+            },
+            shouldOverrideUrlLoading: (controller, navigationAction) async {
+              URLRequest request = navigationAction.request;
+              if (request.url == null ||
+                  request.url.toString() == 'about:blank' ||
+                  request.url!.toString().contains('tawk.to/chat')) {
+                return NavigationActionPolicy.ALLOW;
+              }
 
-            if (widget.onLinkTap != null) {
-              widget.onLinkTap!(request.url);
-            }
+              if (widget.onLinkTap != null) {
+                widget.onLinkTap!(request.url.toString());
+              }
 
-            return NavigationDecision.prevent;
-          },
-          onPageFinished: (_) {
-            if (widget.visitor != null) {
-              _setUser(widget.visitor!);
-            }
+              return NavigationActionPolicy.CANCEL;
+            },
+            onLoadStop: (controller, url) {
+              if (widget.visitor != null) {
+                _setUser(widget.visitor!);
+              }
 
-            if (widget.onLoad != null) {
-              widget.onLoad!();
-            }
+              if (widget.onLoad != null) {
+                widget.onLoad!();
+              }
 
-            setState(() {
-              _isLoading = false;
-            });
-          },
-        ),
-        _isLoading
-            ? widget.placeholder ??
-                const Center(
-                  child: CircularProgressIndicator(),
-                )
-            : Container(),
-      ],
+              setState(() {
+                _isLoading = false;
+              });
+            },
+          ),
+          _isLoading
+              ? widget.placeholder ??
+                  const Center(
+                    child: CircularProgressIndicator(),
+                  )
+              : Container(),
+        ],
+      ),
     );
   }
 }
