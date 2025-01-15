@@ -1,9 +1,7 @@
 name: flutter_tawk_to_chat
 description: 
-  A Flutter plugin for integrating Tawk.to live chat into your app. 
   This plugin allows you to easily add Tawk.to live chat functionality to your Flutter applications, 
-  enabling real-time communication with your users. It supports various customization options 
-  and provides a seamless user experience.
+  enabling real-time communication with your users. 
 version: 0.3.0+1
 homepage: https://github.com/ycy-0510/flutter_tawk_to
 
