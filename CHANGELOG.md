@@ -1,6 +1,8 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.4.0+1]
+- Update example
 
 ## [0.4.0]
 - Add method to get chatOngoing visitorEngaged and endChat
