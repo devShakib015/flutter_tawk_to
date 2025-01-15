@@ -2,11 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.2]
+- Fix the issue of the TypeError:TawkController 
 ## [0.3.1]
 - Update TawkController to get chat status
 
 ## [0.3.0]
-
 - Add onControllerChanged callback to get the controller of the webview.
 
 ## [0.2.2]

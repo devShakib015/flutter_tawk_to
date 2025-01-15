@@ -8,21 +8,16 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import 'tawk_visitor.dart';
 
-// class
-class TawkController extends InAppWebViewController {
-  TawkController.fromPlatform(
-      {required PlatformInAppWebViewController platform})
-      : super.fromPlatform(platform: platform);
-  TawkController.fromPlatformCreationParams(
-      {required PlatformInAppWebViewControllerCreationParams params})
-      : super.fromPlatformCreationParams(params: params);
+class TawkController {
+  final InAppWebViewController _controller;
+  TawkController(this._controller);
 
   Future<bool> isChatOngoing() async {
     String script = '''
 var Tawk_API = Tawk_API || {};
 Tawk_API.isChatOngoing();
 ''';
-    return await evaluateJavascript(source: script);
+    return await _controller.evaluateJavascript(source: script);
   }
 
   Future<bool> isVisitorEngaged() async {
@@ -30,8 +25,11 @@ Tawk_API.isChatOngoing();
 var Tawk_API = Tawk_API || {};
 Tawk_API.isVisitorEngaged();
 ''';
-    return await evaluateJavascript(source: script);
+    return await _controller.evaluateJavascript(source: script);
   }
+
+  Future<bool> canGoBack() => _controller.canGoBack();
+  Future<void> goBack() => _controller.goBack();
 }
 
 /// [Tawk] Widget.
@@ -96,15 +94,16 @@ Tawk_API.onLoad = function() {
     if (kDebugMode) {
       log(javascriptString.replaceAll('\n', ''), name: 'WebView JS');
     }
-    await _controller?.evaluateJavascript(source: javascriptString);
+    await _controller?._controller.evaluateJavascript(source: javascriptString);
     if (kDebugMode) {
-      print(await _controller?.evaluateJavascript(source: 'Tawk_API'));
+      print(await _controller?._controller
+          .evaluateJavascript(source: 'Tawk_API'));
     }
   }
 
   @override
   void dispose() {
-    _controller?.evaluateJavascript(source: 'Tawk_API.endChat();');
+    _controller?._controller.evaluateJavascript(source: 'Tawk_API.endChat();');
     super.dispose();
   }
 
@@ -122,7 +121,7 @@ Tawk_API.onLoad = function() {
               ),
               onWebViewCreated: (InAppWebViewController webViewController) {
                 setState(() {
-                  _controller = webViewController as TawkController?;
+                  _controller = TawkController(webViewController);
                 });
                 if (widget.onControllerChanged != null) {
                   widget.onControllerChanged!(_controller);
