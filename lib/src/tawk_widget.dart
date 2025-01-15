@@ -28,6 +28,14 @@ Tawk_API.isVisitorEngaged();
     return await _controller.evaluateJavascript(source: script);
   }
 
+  void endChat() {
+    String script = '''
+var Tawk_API = Tawk_API || {};
+Tawk_API.endChat();
+''';
+    _controller.evaluateJavascript(source: script);
+  }
+
   Future<bool> canGoBack() => _controller.canGoBack();
   Future<void> goBack() => _controller.goBack();
 }
@@ -95,16 +103,6 @@ Tawk_API.onLoad = function() {
       log(javascriptString.replaceAll('\n', ''), name: 'WebView JS');
     }
     await _controller?._controller.evaluateJavascript(source: javascriptString);
-    if (kDebugMode) {
-      print(await _controller?._controller
-          .evaluateJavascript(source: 'Tawk_API'));
-    }
-  }
-
-  @override
-  void dispose() {
-    _controller?._controller.evaluateJavascript(source: 'Tawk_API.endChat();');
-    super.dispose();
   }
 
   @override

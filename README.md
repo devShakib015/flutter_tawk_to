@@ -60,6 +60,14 @@ See the `example` directory for the complete sample app.
 | email     | `String` | `null`  | Visitor's email.                                            | No       |
 | hash      | `String` | `null`  | [Secure mode](https://developer.tawk.to/jsapi/#SecureMode). | No       |
 
+### TawkController
+| Method| Description|
+| ----------------- | ----------- |
+| `isChatOngoing()` | Checks if a chat is ongoing. Returns a `Future<bool>`.                      |
+| `isVisitorEngaged()` | Checks if the visitor is engaged. Returns a `Future<bool>`.              |
+| `endChat()`       | Ends the current chat session.                                              |
+| `canGoBack()`     | Checks if the web view can navigate back. Returns a `Future<bool>`.         |
+| `goBack()`        | Navigates back in the web view history. Returns a `Future<void>`.           |
 
 ## Changelog
 

@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.0]
+- Add method to get chatOngoing visitorEngaged and endChat
+
 ## [0.3.2]
 - Fix the issue of the TypeError:TawkController 
 ## [0.3.1]
