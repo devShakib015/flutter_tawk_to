@@ -8,6 +8,9 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import 'tawk_visitor.dart';
 
+// class
+typedef TawkController = InAppWebViewController;
+
 /// [Tawk] Widget.
 class Tawk extends StatefulWidget {
   /// Tawk direct chat link.
@@ -24,6 +27,7 @@ class Tawk extends StatefulWidget {
 
   /// Render your own loading widget.
   final Widget? placeholder;
+  final ValueChanged<TawkController?>? onControllerChanged;
 
   const Tawk({
     Key? key,
@@ -32,6 +36,7 @@ class Tawk extends StatefulWidget {
     this.onLoad,
     this.onLinkTap,
     this.placeholder,
+    this.onControllerChanged,
   }) : super(key: key);
 
   @override
@@ -39,9 +44,9 @@ class Tawk extends StatefulWidget {
 }
 
 class _TawkState extends State<Tawk> {
-  late InAppWebViewController _controller;
   bool _isLoading = true;
   late CookieManager cookieManager;
+  late TawkController _controller;
 
   @override
   void initState() {
@@ -92,10 +97,13 @@ Tawk_API.onLoad = function() {
               initialSettings: InAppWebViewSettings(
                 supportZoom: false,
               ),
-              onWebViewCreated: (InAppWebViewController webViewController) {
+              onWebViewCreated: (TawkController webViewController) {
                 setState(() {
                   _controller = webViewController;
                 });
+                if (widget.onControllerChanged != null) {
+                  widget.onControllerChanged!(_controller);
+                }
               },
               shouldOverrideUrlLoading: (controller, navigationAction) async {
                 URLRequest request = navigationAction.request;

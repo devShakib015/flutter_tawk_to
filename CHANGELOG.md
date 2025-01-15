@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.0]
+
+- Add onControllerChanged callback to get the controller of the webview.
+
 ## [0.2.2]
 - Update README.md
 
