@@ -108,6 +108,29 @@ Tawk_API.onLoad = function() {
     await _controller?._controller.evaluateJavascript(source: javascriptString);
   }
 
+  Future<void> _setLanguage(String language) async {
+    String javascriptString;
+
+    if (Platform.isIOS) {
+      javascriptString = '''
+
+    var Tawk_API = Tawk_API || {} 
+    Tawk_API.setLanguage('$language')
+      ''';
+    } else {
+      javascriptString = '''
+var Tawk_API = Tawk_API || {};
+Tawk_API.onLoad = function() {
+  Tawk_API.setLanguage('$language')
+};
+      ''';
+    }
+    if (kDebugMode) {
+      log(javascriptString.replaceAll('\n', ''), name: 'WebView JS');
+    }
+    await _controller?._controller.evaluateJavascript(source: javascriptString);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
@@ -143,20 +166,10 @@ Tawk_API.onLoad = function() {
               onLoadStop: (controller, url) async {
                 // Set language first
                 if (widget.locale != null) {
-                  final localeScript = '''
-      var Tawk_API = Tawk_API || {};
-      Tawk_API.onLoad = function() {
-        Tawk_API.setLanguage('${widget.locale}');
-      };
-    ''';
-                  if (kDebugMode) {
-                    log("Language Script: $localeScript", name: 'WebView JS');
-                  }
-                  await controller.evaluateJavascript(source: localeScript);
+                  await _setLanguage(widget.locale!);
                 }
 
                 // Then set visitor info
-
                 if (widget.visitor != null) {
                   _setUser(widget.visitor!);
                 }
