@@ -58,6 +58,8 @@ class Tawk extends StatefulWidget {
   final Widget? placeholder;
   final ValueChanged<TawkController?>? onControllerChanged;
 
+  final String locale;
+
   const Tawk({
     Key? key,
     required this.directChatLink,
@@ -66,6 +68,7 @@ class Tawk extends StatefulWidget {
     this.onLinkTap,
     this.placeholder,
     this.onControllerChanged,
+    this.locale = "en",
   }) : super(key: key);
 
   @override
@@ -114,9 +117,7 @@ Tawk_API.onLoad = function() {
           children: [
             InAppWebView(
               initialUrlRequest: URLRequest(url: WebUri(widget.directChatLink)),
-              initialSettings: InAppWebViewSettings(
-                supportZoom: false,
-              ),
+              initialSettings: InAppWebViewSettings(supportZoom: false),
               onWebViewCreated: (InAppWebViewController webViewController) {
                 setState(() {
                   _controller = TawkController(webViewController);
@@ -139,7 +140,22 @@ Tawk_API.onLoad = function() {
 
                 return NavigationActionPolicy.CANCEL;
               },
-              onLoadStop: (controller, url) {
+              onLoadStop: (controller, url) async {
+                // Set language first
+
+                final localeScript = '''
+      var Tawk_API = Tawk_API || {};
+      Tawk_API.onLoad = function() {
+        Tawk_API.setLanguage('${widget.locale}');
+      };
+    ''';
+                if (kDebugMode) {
+                  log("Language Script: $localeScript", name: 'WebView JS');
+                }
+                await controller.evaluateJavascript(source: localeScript);
+
+                // Then set visitor info
+
                 if (widget.visitor != null) {
                   _setUser(widget.visitor!);
                 }
@@ -155,9 +171,7 @@ Tawk_API.onLoad = function() {
             ),
             _isLoading
                 ? widget.placeholder ??
-                    const Center(
-                      child: CircularProgressIndicator(),
-                    )
+                    const Center(child: CircularProgressIndicator())
                 : Container(),
           ],
         ),
