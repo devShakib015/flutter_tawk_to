@@ -58,7 +58,7 @@ class Tawk extends StatefulWidget {
   final Widget? placeholder;
   final ValueChanged<TawkController?>? onControllerChanged;
 
-  final String locale;
+  final String? locale;
 
   const Tawk({
     Key? key,
@@ -68,7 +68,7 @@ class Tawk extends StatefulWidget {
     this.onLinkTap,
     this.placeholder,
     this.onControllerChanged,
-    this.locale = "en",
+    this.locale,
   }) : super(key: key);
 
   @override
@@ -142,17 +142,18 @@ Tawk_API.onLoad = function() {
               },
               onLoadStop: (controller, url) async {
                 // Set language first
-
-                final localeScript = '''
+                if (widget.locale != null) {
+                  final localeScript = '''
       var Tawk_API = Tawk_API || {};
       Tawk_API.onLoad = function() {
         Tawk_API.setLanguage('${widget.locale}');
       };
     ''';
-                if (kDebugMode) {
-                  log("Language Script: $localeScript", name: 'WebView JS');
+                  if (kDebugMode) {
+                    log("Language Script: $localeScript", name: 'WebView JS');
+                  }
+                  await controller.evaluateJavascript(source: localeScript);
                 }
-                await controller.evaluateJavascript(source: localeScript);
 
                 // Then set visitor info
 
